@@ -1,0 +1,8 @@
+.venv
+/.vscode
+/.idea
+/.github
+/media
+*.sqlite3
+__pycache__/
+/images
