@@ -27,3 +27,11 @@ class LoginView(APIView):
             return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
         elif response.status_code == 403:
             return Response(response_data, status=status.HTTP_403_FORBIDDEN)
+
+class LogoutView(APIView):
+
+    def post(self, request):
+        headers = {"X-API-Key": settings.PROMETEO_API_KEY}
+        response = requests.get("{}logout/?key={}".format(settings.PROMETEO_API_URL, request.data["key"]), headers = headers)
+        response_data = json.loads(response.content.decode("ascii"))
+        return Response(response_data, status=status.HTTP_200_OK)
