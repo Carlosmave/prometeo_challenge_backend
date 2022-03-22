@@ -4,14 +4,6 @@ from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
 
-class ProviderView(APIView):
-
-    def get(self, request):
-        headers = {"X-API-Key": settings.PROMETEO_API_KEY}
-        response = requests.get("{}provider/".format(settings.PROMETEO_API_URL), headers = headers)
-        response_data = json.loads(response.content.decode("ascii"))
-        return Response(response_data["providers"])
-
 
 class LoginView(APIView):
 
@@ -30,8 +22,13 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
 
-    def post(self, request):
+    def get(self, request):
         headers = {"X-API-Key": settings.PROMETEO_API_KEY}
-        response = requests.get("{}logout/?key={}".format(settings.PROMETEO_API_URL, request.data["key"]), headers = headers)
+        key = request.query_params.get('key', None)
+        response = requests.get("{}logout/?key={}".format(settings.PROMETEO_API_URL, key), headers = headers)
         response_data = json.loads(response.content.decode("ascii"))
-        return Response(response_data, status=status.HTTP_200_OK)
+        try:
+            response_data["message"]
+            return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
+        except KeyError:
+            return Response(response_data, status=status.HTTP_200_OK)
