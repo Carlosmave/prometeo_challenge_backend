@@ -9,8 +9,11 @@ class LoginView(APIView):
 
     def post(self, request):
         headers = {"X-API-Key": settings.PROMETEO_API_KEY, 'Content-Type': 'application/x-www-form-urlencoded'}
-        data = {'username': request.data["username"], 'password': request.data["password"], 'provider': request.data["provider"]["code"],
-        'type': request.data["type"]}
+        data = {'username': request.data["username"], 'password': request.data["password"], 'provider': request.data["provider"]["code"]}
+        if request.data["type"] and data["provider"] == "davivienda":
+            data["type"] = request.data["type"]["code"]
+        else:
+            data["type"] = ""
         response = requests.post("{}login/".format(settings.PROMETEO_API_URL), headers = headers, data = data)
         response_data = json.loads(response.content.decode("ascii"))
         if response.status_code == 200:
