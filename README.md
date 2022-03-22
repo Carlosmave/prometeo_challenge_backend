@@ -28,12 +28,6 @@ pip install -r requirements.txt
 
 Required env vars:
 
-- BITWARDEN_ENV (*'local'* or *'robocloud'*) Get bitwarden creds from env vars or from Robocloud Vault. Default is 'local'
-- BITWARDEN_USERNAME (should be set for local execution if *BITWARDEN_ENV=='local'*)
-- BITWARDEN_PASSWORD (should be set for local execution if *BITWARDEN_ENV=='local'*)
-- BITWARDEN_CLIENT_ID (should be set for local execution if *BITWARDEN_ENV=='local'*)
-- BITWARDEN_CLIENT_SECRET (should be set for local execution if *BITWARDEN_ENV=='local'*)
-
 - BACKEND_URL: The URL of the Django backend (should be set for production execution)
 - CORS_ALLOWED_ORIGINS: The list of allowed origins, separated by a semicolon (;) (should be set for production execution)
 - DB_HOST: The database host
